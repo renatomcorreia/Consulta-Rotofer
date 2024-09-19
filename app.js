@@ -12,25 +12,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Verifica se há pelo menos 3 colunas
                 if (columns.length >= 3) {
-                    const referencia = columns[0] ? columns[0].trim() : '';
-                    const designacao = columns[1] ? columns[1].trim() : '';
-                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
+                    const referencia = columns[0] ? columns[0].trim() : ''; // Garantir que seja uma string
+                    const designacao = columns[1] ? columns[1].trim() : ''; // Garantir que seja uma string
+                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização'; // Tratamento para localização
                     return { referencia, designacao, localizacao };
                 }
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
-            console.log('Itens carregados:', items); // Log dos itens carregados
-
             // A função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase().trim();
-                console.log('Consulta:', query); // Log da consulta
 
                 const filteredItems = items.filter(item => {
-                    console.log('Verificando item:', item); // Log do item sendo verificado
-                    const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
-                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
+                    // Verificações rigorosas para evitar valores indefinidos
+                    const referenciaMatch = item.referencia && typeof item.referencia === 'string' && item.referencia.toLowerCase().includes(query);
+                    const designacaoMatch = item.designacao && typeof item.designacao === 'string' && item.designacao.toLowerCase().includes(query);
                     return referenciaMatch || designacaoMatch;
                 });
 
