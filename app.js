@@ -10,19 +10,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const items = rows.map(row => {
                 const columns = row.split(',');
 
-                // Verifica se o número de colunas está correto e evita campos vazios
+                // Verifica se há pelo menos 3 colunas
                 if (columns.length >= 3) {
-                    const referencia = columns[0] ? columns[0] : '';
-                    const designacao = columns[1] ? columns[1] : '';
-                    const localizacao = columns[2] ? columns[2] : 'Sem localização';
+                    const referencia = columns[0] ? columns[0].trim() : '';
+                    const designacao = columns[1] ? columns[1].trim() : '';
+                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
-                return null; // Ignora linhas mal formatadas
+                return null; // Ignora linhas mal formatadas ou incompletas
             }).filter(item => item !== null); // Remove entradas nulas
 
             // A função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
+
                 const filteredItems = items.filter(item => 
                     (item.referencia && item.referencia.toLowerCase().includes(query)) || 
                     (item.designacao && item.designacao.toLowerCase().includes(query))
