@@ -10,9 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const items = rows.map(row => {
                 const columns = row.split(',');
 
-                // Verifica se o número de colunas está correto
+                // Verifica se o número de colunas está correto e evita campos vazios
                 if (columns.length >= 3) {
-                    const [referencia, designacao, localizacao] = columns;
+                    const referencia = columns[0] ? columns[0] : '';
+                    const designacao = columns[1] ? columns[1] : '';
+                    const localizacao = columns[2] ? columns[2] : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
                 return null; // Ignora linhas mal formatadas
@@ -22,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
                 const filteredItems = items.filter(item => 
-                    item.referencia && item.referencia.toLowerCase().includes(query) || 
-                    item.designacao && item.designacao.toLowerCase().includes(query)
+                    (item.referencia && item.referencia.toLowerCase().includes(query)) || 
+                    (item.designacao && item.designacao.toLowerCase().includes(query))
                 );
 
                 // Exibir os resultados na tela
