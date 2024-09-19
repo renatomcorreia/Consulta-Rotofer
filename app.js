@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const items = rows.map(row => {
                 const columns = row.split(',');
 
-                // Verifica se há pelo menos 3 colunas e se os campos não são undefined
+                // Verifica se há pelo menos 3 colunas
                 if (columns.length >= 3) {
-                    const referencia = columns[0] ? columns[0].trim() : ''; // Se undefined, usa string vazia
-                    const designacao = columns[1] ? columns[1].trim() : ''; // Se undefined, usa string vazia
-                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização'; // Se undefined, usa 'Sem localização'
+                    const referencia = columns[0] ? columns[0].trim() : '';
+                    const designacao = columns[1] ? columns[1].trim() : '';
+                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
-                return null; // Ignora linhas mal formatadas ou incompletas
+                return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
             // A função que será executada sempre que o usuário digitar algo
