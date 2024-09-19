@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const items = rows.map(row => {
                 const columns = row.split(',');
 
-                // Verifica se há pelo menos 3 colunas
+                // Verifica se há pelo menos 3 colunas e se os campos não são undefined
                 if (columns.length >= 3) {
-                    const referencia = columns[0] ? columns[0].trim() : '';
-                    const designacao = columns[1] ? columns[1].trim() : '';
-                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
+                    const referencia = columns[0] ? columns[0].trim() : ''; // Se undefined, usa string vazia
+                    const designacao = columns[1] ? columns[1].trim() : ''; // Se undefined, usa string vazia
+                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização'; // Se undefined, usa 'Sem localização'
                     return { referencia, designacao, localizacao };
                 }
                 return null; // Ignora linhas mal formatadas ou incompletas
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // A função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
-                const query = searchInput.value.toLowerCase();
+                const query = searchInput.value.toLowerCase().trim();
 
                 const filteredItems = items.filter(item => 
                     (item.referencia && item.referencia.toLowerCase().includes(query)) || 
