@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const resultsDiv = document.getElementById('results');
 
+    // Carrega o CSV
     fetch('dados.csv')
         .then(response => response.text())
         .then(data => {
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return { referencia, designacao, localizacao };
             });
 
+            // A função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
                 const filteredItems = items.filter(item => 
@@ -18,9 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     item.designacao.toLowerCase().includes(query)
                 );
 
+                // Exibir os resultados na tela
                 resultsDiv.innerHTML = filteredItems.map(item => 
                     `<div><strong>${item.referencia}</strong> - ${item.designacao} (${item.localizacao})</div>`
                 ).join('');
             });
+        })
+        .catch(error => {
+            resultsDiv.innerHTML = "Erro ao carregar os dados.";
         });
 });
