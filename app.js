@@ -20,14 +20,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
+            console.log('Itens carregados:', items); // Log dos itens carregados
+
             // A função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase().trim();
+                console.log('Consulta:', query); // Log da consulta
 
-                const filteredItems = items.filter(item => 
-                    (item.referencia && item.referencia.toLowerCase().includes(query)) || 
-                    (item.designacao && item.designacao.toLowerCase().includes(query))
-                );
+                const filteredItems = items.filter(item => {
+                    console.log('Verificando item:', item); // Log do item sendo verificado
+                    const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
+                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
+                    return referenciaMatch || designacaoMatch;
+                });
 
                 // Exibir os resultados na tela
                 resultsDiv.innerHTML = filteredItems.map(item => 
