@@ -9,9 +9,17 @@
 </head>
 <body>
     <h1>Consulta Rotofer</h1>
-    <input type="text" id="search-input" placeholder="Procurar referência ou designação...">
-    <div id="results"></div>
+    <input type="text" id="search" placeholder="Pesquisar por referência ou designação...">
+    <div class="results" id="results"></div>
 
-    <script src="app.js" defer></script>
+    <script src="app.js"></script>
+    <script>
+        // Registra o Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker registrado com sucesso'))
+                .catch(err => console.error('Falha ao registrar o Service Worker', err));
+        }
+    </script>
 </body>
 </html>
