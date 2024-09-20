@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
-            console.log(items); // Exibe os itens no console para depuração
+            console.log(items); // Mostra os itens no console para depuração
 
             // Função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase().trim();
 
-                // Se o campo de busca estiver vazio, não faz nada
+                // Se o campo de busca estiver vazio
                 if (query === '') {
                     resultsDiv.innerHTML = '<div>Por favor, insira um termo para buscar.</div>';
                     return;
@@ -41,12 +41,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 // Exibir os resultados na tela
-                resultsDiv.innerHTML = filteredItems.map(item =>
-                    `<div><strong>${item.referencia}</strong> - ${item.designacao} (${item.localizacao})</div>`
-                ).join('');
-
-                // Caso não haja resultados
-                if (filteredItems.length === 0) {
+                if (filteredItems.length > 0) {
+                    resultsDiv.innerHTML = filteredItems.map(item =>
+                        `<div><strong>${item.referencia}</strong> - ${item.designacao} (${item.localizacao})</div>`
+                    ).join('');
+                } else {
                     resultsDiv.innerHTML = '<div>Nenhuma correspondência encontrada.</div>';
                 }
             });
