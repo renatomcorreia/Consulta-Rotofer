@@ -1,38 +1,48 @@
-document.getElementById('search').addEventListener('input', function() {
-    const query = this.value.toLowerCase().replace(/\*/g, '.*'); // Suporte para '*'
-    const regex = new RegExp(query);
-
-    fetch('/dados.csv')
-      .then(response => response.text())
-      .then(text => {
-        const lines = text.split('\n').map(line => line.split(';'));
-
-        // Filtra os resultados usando regex para corresponder ao caractere curinga
-        const results = lines.filter(item => 
-            regex.test(item[0].toLowerCase()) || 
-            (item[1] && regex.test(item[1].toLowerCase()))
-        );
-        
-        displayResults(results);
-      })
-      .catch(error => {
-        console.error('Erro ao carregar CSV:', error);
-        document.getElementById('results').innerHTML = 'Erro ao carregar dados.';
-      });
+document.getElementById('search-input').addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase().replace('*', '.*');
+    
+    fetch('dados.csv')
+        .then(response => response.text())
+        .then(csvText => {
+            const rows = csvText.split('\n').slice(1); // Remove header
+            const regex = new RegExp(query);
+            const results = rows.filter(row => {
+                const [ref, designacao] = row.split(';');
+                return regex.test(ref.toLowerCase()) || regex.test(designacao?.toLowerCase());
+            });
+            
+            displayResults(results);
+        });
 });
 
 function displayResults(results) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
     if (results.length === 0) {
-        document.getElementById('results').innerHTML = 'Nenhuma correspondência encontrada.';
+        resultsDiv.textContent = 'Nenhuma correspondência encontrada.';
         return;
     }
-    
-    // Criação da tabela para exibir os resultados de forma organizada
-    let table = '<table><tr><th>Referência</th><th>Designação</th><th>Localização</th></tr>';
-    results.forEach(result => {
-        table += `<tr><td>${result[0]}</td><td>${result[1]}</td><td>${result[2] || ''}</td></tr>`;
+
+    const table = document.createElement('table');
+    const headerRow = document.createElement('tr');
+    ['Referência', 'Designação', 'Localização'].forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
     });
-    table += '</table>';
-    
-    document.getElementById('results').innerHTML = table;
+    table.appendChild(headerRow);
+
+    results.forEach(row => {
+        const rowElement = document.createElement('tr');
+        const cols = row.split(';');
+        cols.forEach(col => {
+            const td = document.createElement('td');
+            td.textContent = col.trim();
+            rowElement.appendChild(td);
+        });
+        table.appendChild(rowElement);
+    });
+
+    resultsDiv.appendChild(table);
 }

@@ -1,33 +1,27 @@
-const CACHE_NAME = 'consulta-rotofer-cache-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/dados.csv',
-  '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+const cacheName = 'rotofer-cache-v1';
+const assetsToCache = [
+    '/',
+    '/index.html',
+    '/styles.css',
+    '/app.js',
+    '/dados.csv',
+    '/manifest.json',
+    '/images/icon-192x192.png',
+    '/images/icon-512x512.png'
 ];
 
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('Arquivos em cache: ', urlsToCache);
-        return cache.addAll(urlsToCache);
-      })
-  );
+self.addEventListener('install', event => {
+    event.waitUntil(
+        caches.open(cacheName).then(cache => {
+            return cache.addAll(assetsToCache);
+        })
+    );
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        if (response) {
-          return response;  // Retorna do cache
-        }
-        return fetch(event.request);  // Tenta buscar online
-      })
-  );
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request).then(cachedResponse => {
+            return cachedResponse || fetch(event.request);
+        })
+    );
 });
