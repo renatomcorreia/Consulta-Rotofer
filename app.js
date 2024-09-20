@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const filteredItems = items.filter(item => {
                     const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
-                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query); // Verificar se designacao é válida
-                    return referenciaMatch || designacaoMatch;
+
+                    return referenciaMatch;
                 });
 
                 // Exibir os resultados na tela
