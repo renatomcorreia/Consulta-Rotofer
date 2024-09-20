@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const rows = data.split('\n').slice(1); // Ignora a linha de cabeçalho
             const items = rows.map(row => {
                 const columns = row.split(',');
-                // Verifica se há pelo menos 3 colunas e trata campos vazios
                 if (columns.length >= 3) {
                     const referencia = columns[0] ? columns[0].trim() : '';
                     const designacao = columns[1] ? columns[1].trim() : '';
@@ -22,11 +21,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
-            console.log(items); // Mostra os itens no console para depuração
-
             // Função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
-                const query = searchInput.value.toLowerCase().trim();
+                const query = searchInput.value.toLowerCase().trim().replace('*', '.*'); // Substitui '*' por '.*'
 
                 // Se o campo de busca estiver vazio
                 if (query === '') {
@@ -34,17 +31,36 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
+                const regex = new RegExp(query); // Cria uma expressão regular
+
                 const filteredItems = items.filter(item => {
-                    const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
-                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
+                    const referenciaMatch = item.referencia && item.referencia.toLowerCase().match(regex);
+                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().match(regex);
                     return referenciaMatch || designacaoMatch;
                 });
 
                 // Exibir os resultados na tela
                 if (filteredItems.length > 0) {
-                    resultsDiv.innerHTML = filteredItems.map(item =>
-                        `<div><strong>${item.referencia}</strong> - ${item.designacao} (${item.localizacao})</div>`
-                    ).join('');
+                    resultsDiv.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Referência</th>
+                                    <th>Designação</th>
+                                    <th>Localização</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${filteredItems.map(item =>
+                                    `<tr>
+                                        <td>${item.referencia}</td>
+                                        <td>${item.designacao}</td>
+                                        <td>${item.localizacao}</td>
+                                    </tr>`
+                                ).join('')}
+                            </tbody>
+                        </table>
+                    `;
                 } else {
                     resultsDiv.innerHTML = '<div>Nenhuma correspondência encontrada.</div>';
                 }
