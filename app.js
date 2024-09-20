@@ -12,16 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const rows = data.split('\n').slice(1); // Ignora a linha de cabeçalho
             const items = rows.map(row => {
                 const columns = row.split(',');
-
                 // Verifica se há pelo menos 3 colunas e trata campos vazios
                 if (columns.length >= 3) {
                     const referencia = columns[0] ? columns[0].trim() : '';
-                    const designacao = columns[1] ? columns[1].trim() : ''; // Tratar designações vazias
+                    const designacao = columns[1] ? columns[1].trim() : '';
                     const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
+
+            console.log(items); // Exibe os itens no console para depuração
 
             // Função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
@@ -35,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const filteredItems = items.filter(item => {
                     const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
-
-                    return referenciaMatch;
+                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
+                    return referenciaMatch || designacaoMatch;
                 });
 
                 // Exibir os resultados na tela
