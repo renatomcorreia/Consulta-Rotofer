@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Verifica se há pelo menos 3 colunas e trata campos vazios
                 if (columns.length >= 3) {
                     const referencia = columns[0] ? columns[0].trim() : '';
-                    const designacao = columns[1] ? columns[1].trim() : '';
+                    const designacao = columns[1] ? columns[1].trim() : ''; // Tratar designações vazias
                     const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const filteredItems = items.filter(item => {
                     const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
-                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
+                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query); // Verificar se designacao é válida
                     return referenciaMatch || designacaoMatch;
                 });
 
