@@ -1,10 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
     padding: 20px;
 }
 
-input[type="text"] {
+input {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -13,9 +12,9 @@ input[type="text"] {
 
 #results div {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
 }
 
-#results div strong {
-    font-weight: bold;
+#results div:last-child {
+    border-bottom: none;
 }

@@ -2,9 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const resultsDiv = document.getElementById('results');
 
-    // Carrega o CSV
+    // Função para carregar o CSV e processá-lo
     fetch('dados.csv')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error('Erro ao carregar o CSV');
+            return response.text();
+        })
         .then(data => {
             const rows = data.split('\n').slice(1); // Ignora a linha de cabeçalho
             const items = rows.map(row => {
@@ -24,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase().trim();
 
+                // Se o campo de busca estiver vazio, não faz nada
+                if (query === '') {
+                    resultsDiv.innerHTML = '<div>Por favor, insira um termo para buscar.</div>';
+                    return;
+                }
+
                 const filteredItems = items.filter(item => {
                     const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
                     const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
@@ -31,13 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 // Exibir os resultados na tela
-                resultsDiv.innerHTML = filteredItems.map(item => 
+                resultsDiv.innerHTML = filteredItems.map(item =>
                     `<div><strong>${item.referencia}</strong> - ${item.designacao} (${item.localizacao})</div>`
                 ).join('');
 
                 // Caso não haja resultados
                 if (filteredItems.length === 0) {
-                    resultsDiv.innerHTML = '<div>Nenhuma referência encontrada</div>';
+                    resultsDiv.innerHTML = '<div>Nenhuma correspondência encontrada.</div>';
                 }
             });
         })
