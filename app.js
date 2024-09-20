@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             const rows = data.split('\n').slice(1); // Ignora a linha de cabeçalho
             const items = rows.map(row => {
-                const columns = row.split(',');
+                const columns = row.split(';'); // Use ponto e vírgula se o CSV usar isso como delimitador
                 if (columns.length >= 3) {
                     const referencia = columns[0] ? columns[0].trim() : '';
                     const designacao = columns[1] ? columns[1].trim() : '';
