@@ -3,23 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#007bff">
-    <title>Consulta Rotofer</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <title>Consulta Rotofer</title>
 </head>
 <body>
     <h1>Consulta Rotofer</h1>
-    <input type="text" id="search-input" placeholder="Procure por referência ou designação">
+    <input type="text" id="search-input" placeholder="Procurar referência ou designação...">
     <div id="results"></div>
 
-    <script src="app.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log('Service Worker Registered'))
-            .catch(error => console.log('Service Worker registration failed:', error));
-        }
-    </script>
+    <script src="app.js" defer></script>
 </body>
 </html>

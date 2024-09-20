@@ -4,11 +4,14 @@ body {
     padding: 20px;
 }
 
-input {
-    padding: 10px;
+h1 {
+    text-align: center;
+}
+
+#search-input {
     width: 100%;
+    padding: 10px;
     margin-bottom: 20px;
-    font-size: 16px;
 }
 
 table {
@@ -16,17 +19,15 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
-    padding: 10px;
+table, th, td {
     border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
     text-align: left;
 }
 
 th {
-    background-color: #f4f4f4;
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    background-color: #f2f2f2;
 }
