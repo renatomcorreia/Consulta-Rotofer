@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta Rotofer</title>
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
+    <title>Consulta Rotofer</title>
 </head>
 <body>
     <h1>Consulta Rotofer</h1>
-    <input type="text" id="search" placeholder="Procurar por referência ou designação...">
+    <input type="text" id="searchInput" placeholder="Procure por Referência ou Designação">
     <div id="results"></div>
 
     <script src="app.js"></script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service-worker.js')
+              .then(function(registration) {
+                  console.log('Service Worker registered with scope:', registration.scope);
+              }).catch(function(error) {
+                  console.log('Service Worker registration failed:', error);
+              });
+      }
+    </script>
 </body>
 </html>
