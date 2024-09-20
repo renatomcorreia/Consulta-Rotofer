@@ -1,41 +1,49 @@
+/* Estiliza o corpo da página */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
+    font-family: Arial, sans-serif; /* Define a fonte para Arial ou sans-serif */
+    margin: 0; /* Remove margens padrão */
+    padding: 20px; /* Adiciona espaço interno de 20 pixels */
+    background-color: #f9f9f9; /* Define a cor de fundo como um cinza claro */
 }
 
+/* Estiliza o título principal */
 h1 {
-    text-align: center;
+    text-align: center; /* Centraliza o texto do título */
 }
 
+/* Estiliza o campo de entrada de pesquisa */
 #search-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 100%; /* Faz o campo ocupar toda a largura disponível */
+    padding: 10px; /* Adiciona espaço interno de 10 pixels */
+    margin-bottom: 20px; /* Adiciona espaço abaixo do campo */
+    border: 1px solid #ccc; /* Define uma borda cinza clara */
+    border-radius: 5px; /* Arredonda os cantos da borda */
 }
 
+/* Estiliza as tabelas */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    width: 100%; /* Faz a tabela ocupar toda a largura disponível */
+    border-collapse: collapse; /* Remove espaçamentos entre bordas de células */
+    margin-top: 20px; /* Adiciona espaço acima da tabela */
 }
 
+/* Estiliza as bordas da tabela e suas células */
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Define uma borda cinza clara para a tabela e células */
 }
 
+/* Estiliza as células da tabela */
 th, td {
-    padding: 8px;
-    text-align: left;
+    padding: 8px; /* Adiciona espaço interno de 8 pixels nas células */
+    text-align: left; /* Alinha o texto à esquerda */
 }
 
+/* Estiliza o cabeçalho da tabela */
 th {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* Define uma cor de fundo cinza claro para o cabeçalho */
 }
 
+/* Estiliza as linhas da tabela ao passar o mouse */
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Muda a cor de fundo para um cinza claro ao passar o mouse */
 }

@@ -1,20 +1,39 @@
 {
+    // Nome curto da aplicação, usado em locais onde o espaço é limitado
     "short_name": "Rotofer",
+    
+    // Nome completo da aplicação, exibido em lugares onde há mais espaço
     "name": "Consulta Rotofer",
+    
+    // Lista de ícones da aplicação com diferentes tamanhos
     "icons": [
         {
+            // Caminho para o ícone de 192x192 pixels
             "src": "images/icon-192x192.png",
+            // Tamanho do ícone
             "sizes": "192x192",
+            // Tipo do arquivo do ícone
             "type": "image/png"
         },
         {
+            // Caminho para o ícone de 512x512 pixels
             "src": "images/icon-512x512.png",
+            // Tamanho do ícone
             "sizes": "512x512",
+            // Tipo do arquivo do ícone
             "type": "image/png"
         }
     ],
+    
+    // URL que será carregada quando a aplicação for aberta
     "start_url": "index.html",
+    
+    // Define como a aplicação deve ser exibida
     "display": "standalone",
+    
+    // Cor de fundo da aplicação
     "background_color": "#ffffff",
+    
+    // Cor do tema da aplicação, utilizada na barra de status
     "theme_color": "#000000"
 }

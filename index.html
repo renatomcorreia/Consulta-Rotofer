@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <!-- Define o conjunto de caracteres para UTF-8 -->
     <meta charset="UTF-8">
+    
+    <!-- Define a viewport para uma melhor visualização em dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    <!-- Habilita a aplicação em modo web para iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Define a cor da barra de status da aplicação em iOS -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Link para o arquivo de manifesto da PWA -->
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Link para a folha de estilos CSS -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="apple-touch-icon" href="images/icon-192x192.png"> <!-- Ícone específico para iOS -->
+    
+    <!-- Ícone específico para iOS quando a aplicação é adicionada à tela inicial -->
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+    
+    <!-- Título da página exibido na aba do navegador -->
     <title>Consulta Rotofer</title>
-</head><body>
+</head>
+<body>
+    <!-- Título principal da aplicação -->
     <h1>Consulta Rotofer</h1>
+    
+    <!-- Campo de entrada para o usuário buscar referências ou designações -->
     <input type="text" id="search-input" placeholder="Procurar referência ou designação...">
+    
+    <!-- Div onde os resultados da pesquisa serão exibidos -->
     <div id="results"></div>
 
+    <!-- Script JavaScript da aplicação, carregado de forma assíncrona -->
     <script src="app.js" defer></script>
 </body>
 </html>
+
