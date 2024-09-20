@@ -6,28 +6,27 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('dados.csv')
         .then(response => response.text())
         .then(data => {
-            const rows = data.split('\n').slice(1); // Ignorar a linha de cabeçalho
+            const rows = data.split('\n').slice(1); // Ignora a linha de cabeçalho
             const items = rows.map(row => {
                 const columns = row.split(',');
 
-                // Verifica se há pelo menos 3 colunas
+                // Verifica se há pelo menos 3 colunas e trata campos vazios
                 if (columns.length >= 3) {
-                    const referencia = columns[0] ? columns[0].trim() : ''; // Garantir que seja uma string
-                    const designacao = columns[1] ? columns[1].trim() : ''; // Garantir que seja uma string
-                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização'; // Tratamento para localização
+                    const referencia = columns[0] ? columns[0].trim() : '';
+                    const designacao = columns[1] ? columns[1].trim() : '';
+                    const localizacao = columns[2] ? columns[2].trim() : 'Sem localização';
                     return { referencia, designacao, localizacao };
                 }
                 return null; // Ignora linhas mal formatadas
             }).filter(item => item !== null); // Remove entradas nulas
 
-            // A função que será executada sempre que o usuário digitar algo
+            // Função que será executada sempre que o usuário digitar algo
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase().trim();
 
                 const filteredItems = items.filter(item => {
-                    // Verificações rigorosas para evitar valores indefinidos
-                    const referenciaMatch = item.referencia && typeof item.referencia === 'string' && item.referencia.toLowerCase().includes(query);
-                    const designacaoMatch = item.designacao && typeof item.designacao === 'string' && item.designacao.toLowerCase().includes(query);
+                    const referenciaMatch = item.referencia && item.referencia.toLowerCase().includes(query);
+                    const designacaoMatch = item.designacao && item.designacao.toLowerCase().includes(query);
                     return referenciaMatch || designacaoMatch;
                 });
 
