@@ -1,13 +1,18 @@
 document.getElementById('search').addEventListener('input', function() {
-    const query = this.value.toLowerCase();
+    const query = this.value.toLowerCase().replace(/\*/g, '.*'); // Suporte para '*'
+    const regex = new RegExp(query);
+
     fetch('/dados.csv')
       .then(response => response.text())
       .then(text => {
         const lines = text.split('\n').map(line => line.split(';'));
+
+        // Filtra os resultados usando regex para corresponder ao caractere curinga
         const results = lines.filter(item => 
-            item[0].toLowerCase().includes(query) || 
-            (item[1] && item[1].toLowerCase().includes(query))
+            regex.test(item[0].toLowerCase()) || 
+            (item[1] && regex.test(item[1].toLowerCase()))
         );
+        
         displayResults(results);
       })
       .catch(error => {
@@ -22,6 +27,7 @@ function displayResults(results) {
         return;
     }
     
+    // Criação da tabela para exibir os resultados de forma organizada
     let table = '<table><tr><th>Referência</th><th>Designação</th><th>Localização</th></tr>';
     results.forEach(result => {
         table += `<tr><td>${result[0]}</td><td>${result[1]}</td><td>${result[2] || ''}</td></tr>`;
