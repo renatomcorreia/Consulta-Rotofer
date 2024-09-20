@@ -1,29 +1,45 @@
-const cacheName = 'rotofer-cache-v1'; // Nome do cache
-const assetsToCache = [
+const CACHE_NAME = 'consulta-rotofer-v1';
+const urlsToCache = [
     '/',
     '/index.html',
-    '/styles.css',
+    '/style.css',
     '/app.js',
     '/dados.csv',
-    '/manifest.json',
     '/images/icon-192x192.png',
     '/images/icon-512x512.png'
 ];
 
-// Evento de instalação do Service Worker
+// Instala o Service Worker
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(cacheName).then(cache => {
-            return cache.addAll(assetsToCache); // Adiciona todos os assets ao cache
+        caches.open(CACHE_NAME)
+            .then(cache => {
+                return cache.addAll(urlsToCache);
+            })
+    );
+});
+
+// Ativa o Service Worker e limpa caches antigos
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
     );
 });
 
-// Evento para interceptar as requisições
+// Busca recursos do cache
 self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request).then(cachedResponse => {
-            return cachedResponse || fetch(event.request); // Retorna resposta do cache ou faz a requisição
-        })
+        caches.match(event.request)
+            .then(response => {
+                return response || fetch(event.request);
+            })
     );
 });

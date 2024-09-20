@@ -1,56 +1,52 @@
-// Espera o DOM carregar para iniciar a lógica
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('search-input');
+let data = [];
 
-    // Evento para buscar resultados quando o usuário digita
-    searchInput.addEventListener('input', function () {
-        const query = this.value.trim().toLowerCase().replace('*', '.*'); // Substitui '*' por regex
-        fetch('dados.csv') // Faz o download do arquivo CSV
-            .then(response => response.text())
-            .then(csvText => {
-                const rows = csvText.split('\n').slice(1); // Remove o cabeçalho
-                const regex = new RegExp(query); // Cria uma expressão regular
-                const results = rows.filter(row => {
-                    const [ref, designacao] = row.split(';');
-                    // Testa se a referência ou designação correspondem ao padrão
-                    return regex.test(ref.toLowerCase()) || regex.test(designacao?.toLowerCase());
-                });
-                
-                displayResults(results); // Exibe os resultados
-            });
-    });
+// Carrega os dados do CSV
+fetch('dados.csv')
+    .then(response => response.text())
+    .then(text => {
+        const rows = text.trim().split('\n');
+        data = rows.slice(1).map(row => {
+            const [referencia, designacao, localizacao] = row.split(';');
+            return { referencia, designacao, localizacao: localizacao || 'N/A' };
+        });
+    })
+    .catch(error => console.error('Erro ao carregar o CSV:', error));
 
-    // Função para exibir os resultados
-    function displayResults(results) {
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = ''; // Limpa resultados anteriores
+// Função de pesquisa
+function search() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
 
-        if (results.length === 0) {
-            resultsDiv.textContent = 'Nenhuma correspondência encontrada.'; // Mensagem se não houver resultados
-            return;
-        }
+    // Substitui o caractere curinga por uma expressão regular
+    const regexQuery = query.replace(/\*/g, '.*'); // Converte * para expressão regular que captura qualquer sequência
+    const regex = new RegExp(regexQuery, 'i'); // 'i' para pesquisa sem diferenciar maiúsculas e minúsculas
 
-        // Cria uma tabela para exibir os resultados
+    const results = data.filter(item => 
+        regex.test(item.referencia.toLowerCase()) ||
+        regex.test(item.designacao.toLowerCase())
+    );
+
+    if (results.length > 0) {
         const table = document.createElement('table');
-        const headerRow = document.createElement('tr');
-        ['Referência', 'Designação', 'Localização'].forEach(headerText => {
-            const th = document.createElement('th');
-            th.textContent = headerText;
-            headerRow.appendChild(th);
+        table.innerHTML = `
+            <tr>
+                <th>Referencia</th>
+                <th>Designacao</th>
+                <th>Localizacao</th>
+            </tr>
+        `;
+        results.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.referencia}</td>
+                <td>${item.designacao}</td>
+                <td>${item.localizacao}</td>
+            `;
+            table.appendChild(row);
         });
-        table.appendChild(headerRow);
-
-        results.forEach(row => {
-            const rowElement = document.createElement('tr');
-            const cols = row.split(';');
-            cols.forEach(col => {
-                const td = document.createElement('td');
-                td.textContent = col.trim();
-                rowElement.appendChild(td);
-            });
-            table.appendChild(rowElement);
-        });
-
-        resultsDiv.appendChild(table); // Adiciona a tabela aos resultados
+        resultsDiv.appendChild(table);
+    } else {
+        resultsDiv.innerHTML = 'Nenhuma correspondência encontrada.';
     }
-});
+}
