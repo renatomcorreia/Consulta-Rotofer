@@ -3,7 +3,7 @@ self.addEventListener('install', (event) => {
         caches.open('v1').then((cache) => {
             return cache.addAll([
                 './index.html',
-                './style.css',
+                './styles.css',
                 './app.js',
                 './dados.csv',
                 './manifest.json'
